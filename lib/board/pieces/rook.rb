@@ -2,7 +2,7 @@
 
 # Rook piece position, possible moves, and threatening spaces
 class Rook
-  attr_reader :potential_moves, :threatening_spaces
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol
 
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
@@ -20,9 +20,10 @@ class Rook
     possible
   end
 
-  def initialize(position, team)
+  def initialize(position, team = 'red')
     @position = position
     @team = team
+    @symbol = team == 'red' ? "\u265C".red : "\u265C".blue
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end

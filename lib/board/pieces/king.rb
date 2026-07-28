@@ -2,7 +2,7 @@
 
 # King piece position, possible moves, and threatening spaces
 class King
-  attr_reader :potential_moves, :threatening_spaces
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol
 
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
@@ -24,9 +24,10 @@ class King
     possible
   end
 
-  def initialize(position, team)
+  def initialize(position, team = 'red')
     @position = position
     @team = team
+    @symbol = team == 'red' ? "\u265A".red : "\u265A".blue
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end

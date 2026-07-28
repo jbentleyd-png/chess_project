@@ -2,6 +2,8 @@
 
 # Knight piece position, possible moves, and threatening spaces
 class Knight
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol
+
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
     translations = [
@@ -22,10 +24,17 @@ class Knight
     possible
   end
 
-  def initialize(position, team)
+  def initialize(position, team = 'red')
     @position = position
     @team = team
+    @symbol = team == 'red' ? "\u265E".red : "\u265E".blue
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
+  end
+
+  def update_position(new_position)
+    @position = new_position
+    @potential_moves = calc_coordinates(new_position)
+    @threatening_spaces = @potent
   end
 end

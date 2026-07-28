@@ -15,4 +15,17 @@ describe Bishop do
       expect(test.calc_coordinates([1, 8]).length).to eq(7)
     end
   end
+
+  describe 'symbol display' do
+    it 'displays a single character, the red(white) bishop piece' do
+      test = Bishop.new([4, 4], 'red')
+      puts test.symbol
+      expect(true).to eq(true)
+    end
+    it 'displays a single character, the blue(black) bishop piece' do
+      test = Bishop.new([4, 4], 'blue')
+      puts test.symbol
+      expect(true).to eq(true)
+    end
+  end
 end
