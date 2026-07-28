@@ -25,8 +25,9 @@ class Pawn
     possible
   end
 
-  def initialize(position)
+  def initialize(position, team)
     @position = position
+    @team = team
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = calc_threatening(position)
   end
