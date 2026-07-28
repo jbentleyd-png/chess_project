@@ -2,6 +2,8 @@
 
 # Queen piece position, possible moves, and threatening spaces
 class Queen
+  attr_reader :potential_moves, :threatening_spaces
+
   def bishop_style_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
     outward_expansion = [1, 2, 3, 4, 5, 6, 7]
@@ -44,6 +46,13 @@ class Queen
   def initialize(position)
     @position = position
     @potential_moves = calc_coordinates(position)
+    @threatening_spaces = @potential_moves
+  end
+
+  # we check if the move is possible elsewhere, this simply updates the object's data
+  def update_position(new_position)
+    @position = new_position
+    @potential_moves = calc_coordinates(new_position)
     @threatening_spaces = @potential_moves
   end
 end
