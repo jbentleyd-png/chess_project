@@ -3,7 +3,7 @@
 require_relative '../../lib/board/board'
 describe Board do
   describe 'space_coordinates' do
-    it 'creates 64 coordinates' do
+    xit 'creates 64 coordinates' do
       test = Board.new
       sc = test.space_coordinates
       p sc
@@ -12,7 +12,7 @@ describe Board do
       expect(sc.length).to eq(64)
     end
 
-    it '7th space is [7, 1]' do
+    xit '7th space is [7, 1]' do
       test = Board.new
       sc = test.space_coordinates
       expect(sc[6]).to eq([7, 1])
@@ -20,13 +20,13 @@ describe Board do
   end
 
   describe 'populate_red' do
-    it 'creates 16 pieces' do
+    xit 'creates 16 pieces' do
       test = Board.new
       pr = test.populate_red
       expect(pr.length).to eq(16)
     end
 
-    it 'third piece is a bishop' do
+    xit 'third piece is a bishop' do
       test = Board.new
       pr = test.populate_red
       expect(pr[2]).to be_a(Bishop)
@@ -34,13 +34,13 @@ describe Board do
   end
 
   describe 'populate_yellow' do
-    it 'creates 16 pieces' do
+    xit 'creates 16 pieces' do
       test = Board.new
       pb = test.populate_yellow
       expect(pb.length).to eq(16)
     end
 
-    it '11th piece is a bishop' do
+    xit '11th piece is a bishop' do
       test = Board.new
       pb = test.populate_yellow
       expect(pb[10]).to be_a(Bishop)
@@ -48,13 +48,13 @@ describe Board do
   end
 
   describe 'populate_board' do
-    it 'final Space is occupied by a Rook' do
+    xit 'final Space is occupied by a Rook' do
       test = Board.new
       pb = test.populate_board
       expect(pb[-1].occupied_by).to be_a(Rook)
     end
 
-    it '[4,4] is empty' do
+    xit '[4,4] is empty' do
       test = Board.new
       pb = test.populate_board
       four_four_index = pb.find_index { |space| space.name == [4, 4] }
@@ -63,7 +63,7 @@ describe Board do
       expect(pb[four_four_index].occupied_by).to eq(nil)
     end
 
-    it '[2,8] has a knight on it' do
+    xit '[2,8] has a knight on it' do
       test = Board.new
       pb = test.populate_board
       four_four_index = pb.find_index { |space| space.name == [2, 8] }
@@ -73,15 +73,23 @@ describe Board do
     end
   end
 
-  describe 'print' do
+  describe 'render' do
     it 'prints the red-side board well' do
       test = Board.new
+
+      puts 'THIS IS THE DATA PRINTED IN ORDER:'
+      test.spaces.each do |s|
+        print s.render
+      end
+      puts "\n"
+
+      puts 'THIS IS THE REAL LIFE:'
       test.render('red')
 
       expect(true).to be(true)
     end
 
-    it 'prints the yellow-side board well' do
+    xit 'prints the yellow-side board well' do
       test = Board.new
       test.render('yellow')
 

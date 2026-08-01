@@ -9,6 +9,8 @@ require_relative 'pieces/queen'
 require_relative 'pieces/rook'
 
 class Board
+  attr_reader :spaces
+
   def space_coordinates
     spaces = []
     @row_names.each do |c|
@@ -79,20 +81,22 @@ class Board
     @spaces = populate_board
   end
 
-  def render_middle_red # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def render_middle_red # rubocop:disable Metrics/MethodLength
     row = 8
-    col = 1
-    @spaces.each do |s|
-      if col == 8
-        col = 1
+    low = 56
+    high = 64
+
+    loop do
+      print row
+      @spaces[low..high].each do |s|
         print " #{s.render} "
-        puts @row_names[row - 1].to_s.gray unless row.zero?
-        row -= 1
-        print @row_names[row - 1] unless row.zero?
-      else
-        print " #{s.render} "
-        col += 1
       end
+      puts @row_names[row - 1].to_s.gray unless row.zero?
+      row -= 1
+      break if row.zero?
+
+      high = low - 1
+      low = high - 7
     end
   end
 
@@ -113,10 +117,9 @@ class Board
     end
   end
 
-  def render(turn) # rubocop:disable Metrics/MethodLength
+  def render(turn)
     if turn == 'red'
       puts "  #{@col_names.gray}"
-      print 8
       render_middle_red
       puts "  #{@col_names}"
     else
