@@ -46,7 +46,7 @@ class Queen
   def initialize(position, team = 'red')
     @position = position
     @team = team
-    @symbol = team == 'red' ? "\u265B".red : "\u265B".blue
+    @symbol = team == 'red' ? "\u265B".red : "\u265B".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end

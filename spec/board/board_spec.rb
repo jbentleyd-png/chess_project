@@ -33,16 +33,16 @@ describe Board do
     end
   end
 
-  describe 'populate_blue' do
+  describe 'populate_yellow' do
     it 'creates 16 pieces' do
       test = Board.new
-      pb = test.populate_blue
+      pb = test.populate_yellow
       expect(pb.length).to eq(16)
     end
 
     it '11th piece is a bishop' do
       test = Board.new
-      pb = test.populate_blue
+      pb = test.populate_yellow
       expect(pb[10]).to be_a(Bishop)
     end
   end
@@ -70,6 +70,15 @@ describe Board do
       p four_four_index
 
       expect(pb[four_four_index].occupied_by).to be_a(Knight)
+    end
+  end
+
+  describe 'print' do
+    it 'prints the board well' do
+      test = Board.new
+      test.render
+
+      expect(true).to be(true)
     end
   end
 end

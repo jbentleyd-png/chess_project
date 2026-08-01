@@ -23,7 +23,7 @@ class Rook
   def initialize(position, team = 'red')
     @position = position
     @team = team
-    @symbol = team == 'red' ? "\u265C".red : "\u265C".blue
+    @symbol = team == 'red' ? "\u265C".red : "\u265C".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end

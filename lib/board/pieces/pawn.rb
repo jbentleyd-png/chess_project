@@ -28,7 +28,7 @@ class Pawn
   def initialize(position, team = 'red')
     @position = position
     @team = team
-    @symbol = team == 'red' ? "\u265F".red : "\u265F".blue
+    @symbol = team == 'red' ? "\u265F".red : "\u265F".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = calc_threatening(position)
   end

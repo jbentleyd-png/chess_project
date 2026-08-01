@@ -27,7 +27,7 @@ class King
   def initialize(position, team = 'red')
     @position = position
     @team = team
-    @symbol = team == 'red' ? "\u265A".red : "\u265A".blue
+    @symbol = team == 'red' ? "\u265A".red : "\u265A".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end

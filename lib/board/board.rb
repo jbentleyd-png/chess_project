@@ -11,9 +11,8 @@ require_relative 'pieces/rook'
 class Board
   def space_coordinates
     spaces = []
-    files = [*1..8]
-    files.each do |c|
-      files.each do |r|
+    @row_names.each do |c|
+      @row_names.each do |r|
         spaces << [r, c]
       end
     end
@@ -39,21 +38,21 @@ class Board
     end
   end
 
-  def populate_blue
+  def populate_yellow
     @space_coordinates[48..63].map do |c|
       case c
       when [1, 8], [8, 8]
-        Rook.new(c, 'blue')
+        Rook.new(c, 'yellow')
       when [2, 8], [7, 8]
-        Knight.new(c, 'blue')
+        Knight.new(c, 'yellow')
       when [3, 8], [6, 8]
-        Bishop.new(c, 'blue')
+        Bishop.new(c, 'yellow')
       when [4, 8]
-        Queen.new(c, 'blue')
+        Queen.new(c, 'yellow')
       when [5, 8]
-        King.new(c, 'blue')
+        King.new(c, 'yellow')
       else
-        Pawn.new(c, 'blue')
+        Pawn.new(c, 'yellow')
       end
     end
   end
@@ -66,15 +65,39 @@ class Board
       when 16..47
         Space.new(c)
       when 48..63
-        Space.new(c, @blue_team[i - 48])
+        Space.new(c, @yellow_team[i - 48])
       end
     end
   end
 
   def initialize
+    @row_names = [*1..8]
+    @col_names = 'A  B  C  D  E  F  G  H'
     @space_coordinates = space_coordinates
     @red_team = populate_red # == white
-    @blue_team = populate_blue # == black
+    @yellow_team = populate_yellow # == black
     @spaces = populate_board
+  end
+
+  def render_middle(row, col) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    @spaces.reverse.each do |s|
+      if col == 8
+        col = 1
+        print " #{s.render} "
+        puts @row_names[row - 1].to_s.gray unless row.zero?
+        row -= 1
+        print @row_names[row - 1] unless row.zero?
+      else
+        print " #{s.render} "
+        col += 1
+      end
+    end
+  end
+
+  def render
+    puts "  #{@col_names.gray}"
+    print 8
+    render_middle(8, 1)
+    puts "  #{@col_names}"
   end
 end

@@ -28,7 +28,7 @@ class Bishop
   def initialize(position, team = 'red')
     @position = position
     @team = team
-    @symbol = team == 'red' ? "\u265D".red : "\u265D".blue
+    @symbol = team == 'red' ? "\u265D".red : "\u265D".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = @potential_moves
   end
