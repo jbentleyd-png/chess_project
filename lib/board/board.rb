@@ -81,52 +81,42 @@ class Board
     @spaces = populate_board
   end
 
-  def render_middle_red # rubocop:disable Metrics/MethodLength
+  def board_visual(turn) # rubocop:disable Metrics/MethodLength
     row = 8
     low = 56
     high = 64
+    label = turn == 'red' ? @col_names : @col_names.reverse
+    gray_label = turn == 'red' ? label.gray : "  #{label.gray}"
+    output = ["\n", '  ', gray_label, "\n"]
 
     loop do
-      print row
+      output << row.to_s
       @spaces[low..high].each do |s|
-        print " #{s.render} "
+        output << " #{s.render} "
       end
-      puts @row_names[row - 1].to_s.gray unless row.zero?
+      output << @row_names[row - 1].to_s.gray unless row.zero?
+      output << "\n"
       row -= 1
       break if row.zero?
 
       high = low - 1
       low = high - 7
     end
-  end
 
-  def render_middle_yellow # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    row = 1
-    col = 1
-    @spaces.reverse.each do |s|
-      if col == 8
-        col = 1
-        print " #{s.render} "
-        puts @row_names[row - 1].to_s.gray unless row.zero?
-        row += 1
-        print @row_names[row - 1] unless row.zero?
-      else
-        print " #{s.render} "
-        col += 1
-      end
-    end
+    output << "  #{label}"
+    output << "\n"
+    output
   end
 
   def render(turn)
     if turn == 'red'
-      puts "  #{@col_names.gray}"
-      render_middle_red
-      puts "  #{@col_names}"
+      board_visual(turn).each do |string|
+        print string
+      end
     else
-      puts "  #{@col_names.reverse.gray}"
-      print 1
-      render_middle_yellow
-      puts "  #{@col_names.reverse}"
+      board_visual(turn).reverse.each do |string|
+        print string
+      end
     end
   end
 end

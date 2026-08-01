@@ -89,7 +89,7 @@ describe Board do
       expect(true).to be(true)
     end
 
-    xit 'prints the yellow-side board well' do
+    it 'prints the yellow-side board well' do
       test = Board.new
       test.render('yellow')
 
