@@ -19,7 +19,7 @@ class Board
     spaces
   end
 
-  def populate_red
+  def populate_red # rubocop:disable Metrics/MethodLength
     @space_coordinates[0..15].map do |c|
       case c
       when [1, 1], [8, 1]
@@ -38,7 +38,7 @@ class Board
     end
   end
 
-  def populate_yellow
+  def populate_yellow # rubocop:disable Metrics/MethodLength
     @space_coordinates[48..63].map do |c|
       case c
       when [1, 8], [8, 8]
@@ -79,8 +79,10 @@ class Board
     @spaces = populate_board
   end
 
-  def render_middle(row, col) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    @spaces.reverse.each do |s|
+  def render_middle_red # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    row = 8
+    col = 1
+    @spaces.each do |s|
       if col == 8
         col = 1
         print " #{s.render} "
@@ -94,10 +96,34 @@ class Board
     end
   end
 
-  def render
-    puts "  #{@col_names.gray}"
-    print 8
-    render_middle(8, 1)
-    puts "  #{@col_names}"
+  def render_middle_yellow # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    row = 1
+    col = 1
+    @spaces.reverse.each do |s|
+      if col == 8
+        col = 1
+        print " #{s.render} "
+        puts @row_names[row - 1].to_s.gray unless row.zero?
+        row += 1
+        print @row_names[row - 1] unless row.zero?
+      else
+        print " #{s.render} "
+        col += 1
+      end
+    end
+  end
+
+  def render(turn) # rubocop:disable Metrics/MethodLength
+    if turn == 'red'
+      puts "  #{@col_names.gray}"
+      print 8
+      render_middle_red
+      puts "  #{@col_names}"
+    else
+      puts "  #{@col_names.reverse.gray}"
+      print 1
+      render_middle_yellow
+      puts "  #{@col_names.reverse}"
+    end
   end
 end

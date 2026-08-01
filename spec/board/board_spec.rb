@@ -74,9 +74,16 @@ describe Board do
   end
 
   describe 'print' do
-    it 'prints the board well' do
+    it 'prints the red-side board well' do
       test = Board.new
-      test.render
+      test.render('red')
+
+      expect(true).to be(true)
+    end
+
+    it 'prints the yellow-side board well' do
+      test = Board.new
+      test.render('yellow')
 
       expect(true).to be(true)
     end
