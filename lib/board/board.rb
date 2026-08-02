@@ -9,9 +9,9 @@ require_relative 'pieces/queen'
 require_relative 'pieces/rook'
 
 class Board
-  attr_reader :spaces
+  attr_reader :spaces, :space_coordinates, :red_team, :yellow_team
 
-  def space_coordinates
+  def make_space_coordinates
     spaces = []
     @row_names.each do |c|
       @row_names.each do |r|
@@ -75,7 +75,7 @@ class Board
   def initialize
     @row_names = [*1..8]
     @col_names = 'A  B  C  D  E  F  G  H'
-    @space_coordinates = space_coordinates
+    @space_coordinates = make_space_coordinates
     @red_team = populate_red # == white
     @yellow_team = populate_yellow # == black
     @spaces = populate_board
