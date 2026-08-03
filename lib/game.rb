@@ -9,6 +9,15 @@ class Game
     @turn = 'red' # we will do red(white) vs yellow(black) bc we don't know ppl's terminal settings
     @board = Board.new
     @letter_list = %w[A B C D E F G H]
+    @message = {
+      'off_board' => 'on the board.',
+      'not_your_piece' => 'your own piece.',
+      "can't_move" => 'movable.',
+      'your_piece' => 'empty or occupied by an enemy piece.',
+      'impossible_move' => 'a space your piece can reach.',
+      "pawn_can't_attack" => 'occupied by an enemy piece for a pawn attack.'
+
+    }
   end
 
   # INPUT CONVERSION:
@@ -61,21 +70,8 @@ class Game
     # we check for attacking our own teeam earlier
   end
 
-  def reselect_message(issue) # make it a hash?
-    message = case issue
-              when 'off_board'
-                'on the board.'
-              when 'not_your_piece'
-                'your own piece.'
-              when "can't_move"
-                'movable.'
-              when 'your_piece'
-                'empty or occupied by an enemy piece.'
-              when 'impossible_move'
-                'a space your piece can reach.'
-              when "pawn_can't_attack"
-                'occupied by an enemy piece for a pawn attack.'
-              end
+  def reselect_message(issue)
+    message = @message[issue]
     print "#{'Coordinate must be '.red}#{message.red}\nEnter: "
   end
 
