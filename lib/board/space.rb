@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Space
-  attr_reader :name, :occupied_by
+  attr_reader :name
+  attr_accessor :occupied_by
 
   def initialize(coordinate, oc_by = nil)
     @name = coordinate

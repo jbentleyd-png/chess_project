@@ -9,7 +9,8 @@ require_relative 'pieces/queen'
 require_relative 'pieces/rook'
 
 class Board
-  attr_reader :spaces, :space_coordinates, :red_team, :yellow_team
+  attr_reader :spaces, :space_coordinates
+  attr_accessor :red_team, :yellow_team
 
   def make_space_coordinates
     spaces = []
@@ -118,5 +119,16 @@ class Board
         print string
       end
     end
+  end
+
+  def update(start_space, piece, end_space)
+    piece.update_position(end_space.name)
+    start_space.occupied_by = nil
+    unless end_space.occupied_by.nil?
+      dead_piece = end_space.occupied_by
+      dead_piece_team = @turn == 'red' ? @board.red_team : @board.yellow_team
+      dead_piece_team.delete(dead_piece)
+    end
+    end_space.occupied_by = piece
   end
 end

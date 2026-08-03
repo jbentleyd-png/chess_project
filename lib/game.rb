@@ -142,14 +142,14 @@ class Game
     piece = start_space.occupied_by
     print 'Where would you like to move? '
     end_space = select_end_space(piece)
-    p piece
-    p end_space
+    @board.update(start_space, piece, end_space)
+    @turn = @turn == 'red' ? 'yellow' : 'red'
   end
 
   def play
     make_move
-    # 6.times do
-    #  make_move
-    # end
+    6.times do
+      make_move
+    end
   end
 end
