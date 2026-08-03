@@ -2,7 +2,7 @@
 
 # Pawn piece position, possible moves, and threatening spaces
 class Pawn
-  attr_reader :potential_moves, :threatening_spaces, :team, :symbol
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
 
   def calc_coordinates(coordinate)
     next_x = coordinate[0] + 0
@@ -31,11 +31,13 @@ class Pawn
     @symbol = team == 'red' ? "\u265F".red : "\u265F".yellow
     @potential_moves = calc_coordinates(position)
     @threatening_spaces = calc_threatening(position)
+    @adjacent_moves = @potential_moves + @threatening_spaces
   end
 
   def update_position(new_position)
     @position = new_position
     @potential_moves = calc_coordinates(new_position)
     @threatening_spaces = calc_threatening(new_position)
+    @adjacent_moves = @potential_moves + @threatening_spaces
   end
 end

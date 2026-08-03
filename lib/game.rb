@@ -54,7 +54,7 @@ class Game
     blocked = 0
     piece.adjacent_moves.each do |space_coordinate|
       adj_space = @board.spaces.find { |s| s.name == space_coordinate }
-      blocked += 1 unless adj_space.occupied_by.nil?
+      blocked += 1 unless adj_space.occupied_by.nil? || adj_space.occupied_by.team != @turn
     end
     blocked < total_adj_moves
   end

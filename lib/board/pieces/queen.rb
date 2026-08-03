@@ -2,7 +2,7 @@
 
 # Queen piece position, possible moves, and threatening spaces
 class Queen
-  attr_reader :potential_moves, :threatening_spaces, :team, :symbol
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
 
   def bishop_style_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
@@ -43,11 +43,26 @@ class Queen
     bishop_style_coordinates(position) + rook_style_coordinates(position)
   end
 
+  def calc_adjacent(coordinate)
+    adjacent = []
+    translations = [[0, 1], [0, -1], [-1, 0], [1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]]
+
+    translations.each do |t|
+      next_x = coordinate[0] + t[0]
+      next_y = coordinate[1] + t[1]
+      next if next_x < 1 || next_y < 1 || next_x > 8 || next_y > 8
+
+      adjacent << [next_x, next_y]
+    end
+    adjacent
+  end
+
   def initialize(position, team = 'red')
     @position = position
     @team = team
     @symbol = team == 'red' ? "\u265B".red : "\u265B".yellow
     @potential_moves = calc_coordinates(position)
+    @adjacent_moves = calc_adjacent(position)
     @threatening_spaces = @potential_moves
   end
 
@@ -55,6 +70,7 @@ class Queen
   def update_position(new_position)
     @position = new_position
     @potential_moves = calc_coordinates(new_position)
+    @adjacent_moves = calc_adjacent(new_position)
     @threatening_spaces = @potential_moves
   end
 end
