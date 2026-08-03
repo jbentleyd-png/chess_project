@@ -126,7 +126,7 @@ class Board
     start_space.occupied_by = nil
     unless end_space.occupied_by.nil?
       dead_piece = end_space.occupied_by
-      dead_piece_team = @turn == 'red' ? @board.red_team : @board.yellow_team
+      dead_piece_team = piece.team == 'red' ? @red_team : @yellow_team
       dead_piece_team.delete(dead_piece)
     end
     end_space.occupied_by = piece

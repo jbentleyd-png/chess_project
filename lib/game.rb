@@ -69,8 +69,7 @@ class Game
               when 'impossible_move'
                 'a space your piece can reach.'
               end
-    puts 'Enter a valid coordinate.'.red
-    print "#{'Coordinate must be '.gray}#{message.gray}\nEnter: "
+    print "#{'Coordinate must be '.red}#{message.red}\nEnter: "
   end
 
   # SELECTING THE PIECE TO MOVE:
