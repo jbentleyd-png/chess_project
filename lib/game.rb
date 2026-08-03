@@ -56,18 +56,25 @@ class Game
     # now check if there are intervening pieces on the path to the space. depends on piece type.
   end
 
+  def pawn_cannot_attack?(piece, end_space)
+    piece.threatening_spaces.include?(end_space.name) && end_space.occupied_by.nil?
+    # we check for attacking our own teeam earlier
+  end
+
   def reselect_message(issue) # make it a hash?
     message = case issue
               when 'off_board'
                 'on the board.'
               when 'not_your_piece'
                 'your own piece.'
-              when "can't move"
+              when "can't_move"
                 'movable.'
               when 'your_piece'
                 'empty or occupied by an enemy piece.'
               when 'impossible_move'
                 'a space your piece can reach.'
+              when "pawn_can't_attack"
+                'occupied by an enemy piece for a pawn attack.'
               end
     print "#{'Coordinate must be '.red}#{message.red}\nEnter: "
   end
@@ -94,7 +101,7 @@ class Game
         next
       end
       unless piece_can_move?(space)
-        reselect_message("can't move")
+        reselect_message("can't_move")
         next
       end
       break
@@ -120,6 +127,11 @@ class Game
       end
       if piece_on_team?(end_space)
         reselect_message('your_piece')
+        next
+      end
+      # pawn check
+      if piece.instance_of?(Pawn) && pawn_cannot_attack?(piece, end_space)
+        reselect_message("pawn_can't_attack")
         next
       end
 
