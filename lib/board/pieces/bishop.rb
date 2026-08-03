@@ -4,14 +4,13 @@
 require 'colorize'
 
 class Bishop
-  attr_reader :potential_moves, :threatening_spaces, :symbol
+  attr_reader :potential_moves, :threatening_spaces, :symbol, :adjacent_moves, :team
 
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
     outward_expansion = [1, 2, 3, 4, 5, 6, 7]
-    translations = [
-      [1, 1], [-1, 1], [1, -1], [-1, -1]
-    ]
+    translations = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
+
     outward_expansion.each do |oe|
       translations.each do |t|
         next_x = coordinate[0] + t[0] * oe
@@ -25,17 +24,33 @@ class Bishop
     possible
   end
 
+  def calc_adjacent(coordinate)
+    adjacent = []
+    translations = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
+
+    translations.each do |t|
+      next_x = coordinate[0] + t[0]
+      next_y = coordinate[1] + t[1]
+      next if next_x < 1 || next_y < 1 || next_x > 8 || next_y > 8
+
+      adjacent << [next_x, next_y]
+    end
+    adjacent
+  end
+
   def initialize(position, team = 'red')
     @position = position
     @team = team
     @symbol = team == 'red' ? "\u265D".red : "\u265D".yellow
     @potential_moves = calc_coordinates(position)
+    @adjacent_moves = calc_adjacent(position)
     @threatening_spaces = @potential_moves
   end
 
   def update_position(new_position)
     @position = new_position
     @potential_moves = calc_coordinates(new_position)
+    @adjacent_moves = calc_adjacent(new_position)
     @threatening_spaces = @potential_moves
   end
 end

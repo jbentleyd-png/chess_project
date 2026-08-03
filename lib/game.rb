@@ -50,7 +50,13 @@ class Game
   def piece_can_move?(piece_coordinate) # this one requires some data fixes
     space = @board.spaces.find { |s| s.name == piece_coordinate }
     piece = space.occupied_by
-    piece.potential_moves.include?(piece_coordinate)
+    total_adj_moves = piece.adjacent_moves.length
+    blocked = 0
+    piece.adjacent_moves.each do |space_coordinate|
+      adj_space = @board.spaces.find { |s| s.name == space_coordinate }
+      blocked += 1 unless adj_space.occupied_by.nil?
+    end
+    blocked < total_adj_moves
   end
 
   def reselect_piece
@@ -63,7 +69,7 @@ class Game
   def select_piece
     # player_team = @turn == 'red' ? @baord.red_team : @board.blue_team
     piece_coordinate = number_convert(gets.chomp.upcase)
-    until @board.space_coordinates.include?(piece_coordinate) && piece_on_team?(piece_coordinate) # && piece_can_move?(piece_coordinate)
+    until @board.space_coordinates.include?(piece_coordinate) && piece_on_team?(piece_coordinate) && piece_can_move?(piece_coordinate)
       piece_coordinate = reselect_piece
     end
   end
