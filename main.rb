@@ -33,4 +33,4 @@ def opening_sequence
   end
 end
 
-opening_sequence
+new_game

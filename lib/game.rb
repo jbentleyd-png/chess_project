@@ -8,14 +8,14 @@ class Game
   def initialize
     @turn = 'red' # we will do red(white) vs yellow(black) bc we don't know ppl's terminal settings
     @board = Board.new
+    @letter_list = %w[A B C D E F G H]
   end
 
   # INPUT CONVERSION:
 
   def number_convert(chess_space)
-    letter_list = %w[A B C D E F G H]
     arr_version = chess_space.chars
-    col = letter_list.index(arr_version[0]) + 1
+    col = @letter_list.index(arr_version[0]) + 1
     arr_version[0] = col
     arr_version[1] = arr_version[1].to_i
     arr_version
@@ -24,7 +24,7 @@ class Game
   # VALIDATING MOVING PIECE SELECTION:
 
   def valid_row?(input)
-    %w[A B C D E F G H].include?(input[0].upcase)
+    @letter_list.include?(input[0].upcase)
   end
 
   def space_on_board?(input)
@@ -50,14 +50,24 @@ class Game
     blocked < total_adj_moves
   end
 
-  def reselect_message(issue)
+  def move_possible?(piece, target_space)
+    piece.potential_moves.include?(target_space.name)
+
+    # now check if there are intervening pieces on the path to the space. depends on piece type.
+  end
+
+  def reselect_message(issue) # make it a hash?
     message = case issue
               when 'off_board'
                 'on the board.'
               when 'not_your_piece'
                 'your own piece.'
-              else
+              when "can't move"
                 'movable.'
+              when 'your_piece'
+                'empty or occupied by an enemy piece.'
+              when 'impossible_move'
+                'a space your piece can reach.'
               end
     puts 'Enter a valid coordinate.'.red
     print "#{'Coordinate must be '.gray}#{message.gray}\nEnter: "
@@ -93,10 +103,36 @@ class Game
     space
   end
 
+  # SELECTING THE SPACE TO MOVE TO:
+
+  def select_end_space(piece)
+    end_space = nil
+    loop do
+      input = gets.chomp.upcase
+      unless space_on_board?(input)
+        reselect_message('off_board')
+        next
+      end
+
+      end_space = select_space(input)
+      unless move_possible?(piece, end_space)
+        reselect_message('impossible_move')
+        next
+      end
+      if piece_on_team?(end_space)
+        reselect_message('your_piece')
+        next
+      end
+
+      break
+    end
+    end_space
+  end
+
   # MAKING A MOVE:
   def turn_message
     first = @turn == 'red' ? "Red's turn. ".red : "Yellow's turn. ".yellow
-    "#{first}\nWhich piece would you like to move?\n#{'Select using coordinates (A1, G4, etc.).'.gray}\nEnter: "
+    "#{first}\nWhich piece would you like to move?\n#{'Select using coordinates (A1, G4, etc.).'.gray}\nSelect piece: "
   end
 
   def make_move
@@ -104,10 +140,16 @@ class Game
     print turn_message
     start_space = select_start_space
     piece = start_space.occupied_by
+    print 'Where would you like to move? '
+    end_space = select_end_space(piece)
     p piece
+    p end_space
   end
 
   def play
     make_move
+    # 6.times do
+    #  make_move
+    # end
   end
 end
