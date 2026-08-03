@@ -5,11 +5,23 @@ class Pawn
   attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
 
   def calc_coordinates(coordinate)
-    next_x = coordinate[0] + 0
-    next_y = coordinate[1] + 1
-    return [] if next_x < 1 || next_y < 1 || next_x > 8 || next_y > 8
+    possible = []
+    direction_value = @team == 'red' ? 1 : -1
+    translations = [
+      [0, 1 * direction_value], [0, 2 * direction_value],
+      [1, 1 * direction_value], [-1, 1 * direction_value]
+    ]
+    translations.each do |t|
+      next_x = coordinate[0] + t[0]
+      next_y = coordinate[1] + t[1]
+      next if next_x < 1 || next_y < 1 || next_x > 8 || next_y > 8
+      # first move:
+      next if @team == 'red' && t[1] == 2 && coordinate[1] != 2
+      next if @team == 'yellow' && t[1] == 2 && coordinate[1] != 7
 
-    [[next_x, next_y]]
+      possible << [next_x, next_y]
+    end
+    possible
   end
 
   def calc_threatening(coordinate)
