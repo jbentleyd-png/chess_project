@@ -9,8 +9,8 @@ require_relative 'pieces/queen'
 require_relative 'pieces/rook'
 
 class Board
-  attr_reader :spaces, :space_coordinates
-  attr_accessor :red_team, :yellow_team
+  attr_reader :space_coordinates
+  attr_accessor :red_team, :yellow_team, :spaces
 
   def make_space_coordinates
     spaces = []
@@ -26,17 +26,17 @@ class Board
     @space_coordinates[0..15].map do |c|
       case c
       when [1, 1], [8, 1]
-        Rook.new(c)
+        Rook.new(c.dup)
       when [2, 1], [7, 1]
-        Knight.new(c)
+        Knight.new(c.dup)
       when [3, 1], [6, 1]
-        Bishop.new(c)
+        Bishop.new(c.dup)
       when [4, 1]
-        Queen.new(c)
+        Queen.new(c.dup)
       when [5, 1]
-        King.new(c)
+        King.new(c.dup)
       else
-        Pawn.new(c)
+        Pawn.new(c.dup)
       end
     end
   end
@@ -45,17 +45,17 @@ class Board
     @space_coordinates[48..63].map do |c|
       case c
       when [1, 8], [8, 8]
-        Rook.new(c, 'yellow')
+        Rook.new(c.dup, 'yellow')
       when [2, 8], [7, 8]
-        Knight.new(c, 'yellow')
+        Knight.new(c.dup, 'yellow')
       when [3, 8], [6, 8]
-        Bishop.new(c, 'yellow')
+        Bishop.new(c.dup, 'yellow')
       when [4, 8]
-        Queen.new(c, 'yellow')
+        Queen.new(c.dup, 'yellow')
       when [5, 8]
-        King.new(c, 'yellow')
+        King.new(c.dup, 'yellow')
       else
-        Pawn.new(c, 'yellow')
+        Pawn.new(c.dup, 'yellow')
       end
     end
   end
@@ -64,11 +64,11 @@ class Board
     @space_coordinates.map.with_index do |c, i|
       case i
       when 0..15
-        Space.new(c, @red_team[i])
+        Space.new(c.dup, @red_team[i])
       when 16..47
-        Space.new(c)
+        Space.new(c.dup)
       when 48..63
-        Space.new(c, @yellow_team[i - 48])
+        Space.new(c.dup, @yellow_team[i - 48])
       end
     end
   end
@@ -122,7 +122,7 @@ class Board
   end
 
   def update(start_space, piece, end_space)
-    piece.update_position(end_space.name)
+    piece.update_position(end_space.name.dup)
     start_space.occupied_by = nil
     unless end_space.occupied_by.nil?
       dead_piece = end_space.occupied_by

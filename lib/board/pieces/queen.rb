@@ -2,7 +2,7 @@
 
 # Queen piece position, possible moves, and threatening spaces
 class Queen
-  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves, :position
 
   def bishop_style_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []

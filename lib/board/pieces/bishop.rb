@@ -4,7 +4,7 @@
 require 'colorize'
 
 class Bishop
-  attr_reader :potential_moves, :threatening_spaces, :symbol, :adjacent_moves, :team
+  attr_reader :potential_moves, :threatening_spaces, :symbol, :adjacent_moves, :team, :position
 
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []

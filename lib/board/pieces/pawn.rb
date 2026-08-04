@@ -2,7 +2,7 @@
 
 # Pawn piece position, possible moves, and threatening spaces
 class Pawn
-  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves, :position
 
   def calc_coordinates(coordinate)
     possible = []

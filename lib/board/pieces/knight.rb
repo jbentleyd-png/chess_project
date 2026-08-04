@@ -2,7 +2,7 @@
 
 # Knight piece position, possible moves, and threatening spaces
 class Knight
-  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves
+  attr_reader :potential_moves, :threatening_spaces, :team, :symbol, :adjacent_moves, :position
 
   def calc_coordinates(coordinate) # rubocop:disable Metrics/MethodLength
     possible = []
